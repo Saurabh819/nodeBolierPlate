@@ -91,68 +91,68 @@ exports.loginAdmin = async (req, res) => {
   }
 };
 
-// const updateUser = async (req, res) => {
-//   try {
-//     const { username, email, password } = req.body;
-//     const id = req.params.id;
+const updateUser = async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    const id = req.params.id;
 
-//     // Check if the user exists
-//     const existingUser = await User.findOne({ where: { id } });
-//     if (!existingUser) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "User does not exist",
-//       });
-//     }
+    // Check if the user exists
+    const existingUser = await User.findOne({ where: { id } });
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User does not exist",
+      });
+    }
 
-//     // Hash the password if provided
-//     let hashedPassword;
-//     if (password) {
-//       hashedPassword = await bcrypt.hash(password, 10);
-//     }
+    // Hash the password if provided
+    let hashedPassword;
+    if (password) {
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
 
-//     // Update the user with provided fields
-//     const updatedUser = await User.update(
-//       { username, email, password: hashedPassword },
-//       { where: { id } }
-//     );
+    // Update the user with provided fields
+    const updatedUser = await User.update(
+      { username, email, password: hashedPassword },
+      { where: { id } }
+    );
 
-//     return res.status(200).json({
-//       success: true,
-//       message: "User updated successfully",
-//       data: updatedUser,
-//     });
-//   } catch (error) {
-//     return res.status(500).json({
-//       success: false,
-//       message: error.message,
-//       data: null,
-//     });
-//   }
-// };
+    return res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+      data: null,
+    });
+  }
+};
 
-// const deleteUser = async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     const isExistUser = await User.findOne({ where: { id } });
+const deleteUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const isExistUser = await User.findOne({ where: { id } });
 
-//     if (!isExistUser) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "User does not exist",
-//       });
-//     }
-//     const deleteUser = await User.destroy({ where: { id } });
-//     return res.status(200).json({
-//       success: true,
-//       message: "User deleted successfully",
-//       data: isExistUser,
-//     });
-//   } catch (error) {
-//     return res.status(500).json({
-//       success: false,
-//       message: error.message,
-//       data: null,
-//     });
-//   }
-// };
+    if (!isExistUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User does not exist",
+      });
+    }
+    const deleteUser = await User.destroy({ where: { id } });
+    return res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+      data: isExistUser,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+      data: null,
+    });
+  }
+};
