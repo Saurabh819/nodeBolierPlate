@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 exports.registerAdmin = async (req, res) => {
   try {
-    const { name,email, password,roles } = req.body;
+    const { name,email, password,role } = req.body;
     const isExistUser = await Admin.findOne({ email });
     if (isExistUser) {
       return res.status(403).json({
@@ -15,7 +15,7 @@ exports.registerAdmin = async (req, res) => {
         massage: "admin already exists",
       });
     }
-    const isValidRoles = roles.every(role => ["user", "admin"].includes(role)) && roles.includes("admin");
+    const isValidRoles = role.every(role => ["user", "admin"].includes(role)) && role.includes("admin");
     if (!isValidRoles) {
       return res.status(400).json({
         success: false,
@@ -54,7 +54,7 @@ exports.loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const userData = await Admin.findOne({ where: { email } });
+    const userData = await Admin.findOne({ email  });
     if (!userData) {
       return res.status(400).json({
         success: false,
@@ -77,7 +77,7 @@ exports.loginAdmin = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "User Loggedin successfully",
+      message: "Admin Loggedin successfully",
       data: userData,
       token: token,
     });

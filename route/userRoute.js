@@ -20,15 +20,15 @@ router.post(
   );
   router.delete(
     "/delete/:id",
-    protect,
-    authorizeRoles("admin", "user"),
+    // protect,
+    // authorizeRoles("admin", "user"),
     userController.deleteUser
   );
   
   router.get(
     "/getAlluser",
     protect,
-    authorizeRoles("admin"),
+    authorizeRoles('admin'),
     userController.getAllUser
   );
 

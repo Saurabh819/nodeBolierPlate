@@ -35,7 +35,8 @@ const protect = async (req, res, next) => {
 // Middleware to check admin role
 const authorizeRoles = (...roles) => {
     return (req, res, next) => {
-      if (!roles.includes(req.user.role)) {
+        console.log(req.user.role[0])
+      if (!roles.includes(req.user.role[0])) {
         return res.status(403).json({ message: 'Access denied, insufficient permissions' });
       }
       next();

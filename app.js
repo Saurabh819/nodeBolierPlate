@@ -17,6 +17,6 @@ app.get("/", (req, res) => {
   res.send("hello from server");
 });
 
-app.listen(3000, (req, res) => {
-  console.log("server is running at 3000");
+app.listen(8000, (req, res) => {
+  console.log("server is running at 8000");
 });

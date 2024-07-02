@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 exports.registerUser = async (req, res) => {
   try {
-    const { name, email, password, roles } = req.body;
+    const { name, email, password, role } = req.body;
     const isExistUser = await User.findOne({ email  });
     if (isExistUser) {
       return res.status(403).json({
@@ -21,7 +21,7 @@ exports.registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      roles,
+      role,
     });
 
     await newUser.save();
@@ -155,21 +155,27 @@ exports.deleteUser = async (req, res) => {
 exports.getAllUser = async (req, res) => {
   try {
   
-    const pageNumber = parseInt(req.query.page, 10);
-    const limitNumber = parseInt(req.query.limit, 10);
+    const pageNumber = parseInt(req.query.page, 10) || 1;
+    const limitNumber = parseInt(req.query.limit, 10) || 10;
 
-    const { count,rows } = await User.findAndCountAll({
-      offset:(pageNumber - 1) * limitNumber,
-      limit:limitNumber
-    })
-  
+    const offset = (pageNumber - 1) * limitNumber;
+
+    // Count the total number of documents
+    const count = await User.countDocuments();
+
+    // Find the documents with pagination
+    const users = await User.find()
+      .skip(offset)
+      .limit(limitNumber);
+
     return res.status(200).json({
       totalUsers: count,
       totalPages: Math.ceil(count / limitNumber),
       currentPage: pageNumber,
-      users: rows,
-    });
-  } catch (error) {
+      users: users
+      }) 
+    }
+  catch (error) {
     console.log(error)
     return res.status(500).json({
       success: false,
